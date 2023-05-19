@@ -101,6 +101,7 @@ public class MoqIntro
 
         // Assert
         Assert.Equal(expected, actual);
+        _calculatorStorageMock.VerifySet(x => x.Value = expected);
     }
 
     // Set up getter / setter
@@ -118,6 +119,8 @@ public class MoqIntro
 
         // Assert
         Assert.Equal(expected, actual);
+        _calculatorStorageMock.VerifyGet(x => x.Value);
+        _calculatorStorageMock.VerifySet(x => x.Value = expected);
     }
 
     // Setup property to track its value
@@ -197,6 +200,68 @@ public class MoqIntro
 
         // Assert
         _calculatorStorageMock.Verify(x => x.ResetHistory(), Times.Never);
+    }
+
+    #endregion
+
+    #region Callbacks
+
+    // Setup callback
+    [Fact]
+    public void Add_WhenCalled_ShouldCallSetValueOnEachCall()
+    {
+        // Arrange
+        var calls = 0;
+        _calculatorStorageMock.SetupSet(x => x.Value = It.IsAny<decimal>()).Callback(() => calls++);
+
+        // Act
+        _sut.Add(1);
+        _sut.Add(2);
+        _sut.Add(3);
+
+        // Assert
+        Assert.Equal(3, calls);
+    }
+
+    // Setup callback and access invocation arguments
+    [Fact]
+    public void Add_WhenCalled_ShouldAddValueAndCallCallback()
+    {
+        // Arrange
+        var input = 10;
+        var expected = input;
+        var actual = 0M;
+
+        _calculatorStorageMock.Setup(x => x.Value).Returns(0);
+        _calculatorStorageMock.SetupSet(x => x.Value = It.IsAny<decimal>()).Callback<decimal>(x => actual = x);
+
+        // Act
+        _sut.Add(input);
+
+        // Assert
+        Assert.Equal(expected, actual);
+    }
+
+    // Setup callback before and after the invocation
+    [Fact]
+    public void Add_WhenCalled_ShouldGetActualValue()
+    {
+        // Arrange
+        var value = 0M;
+        var initial = 33M;
+        var input = 10M;
+        var expected = initial + input;
+        var actual = 0M;
+
+        _calculatorStorageMock.SetupProperty(x => x.Value, 0);
+        _calculatorStorageMock.SetupGet(x => x.Value).Callback(() => value = initial).Returns(() => value).Callback<decimal>((x) => actual = x);
+
+        // Act
+        _sut.Add(input);
+
+        // Assert
+        Assert.Equal(expected, actual);
+        Assert.Equal(expected, value);
     }
 
     #endregion
