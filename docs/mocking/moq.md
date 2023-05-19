@@ -125,11 +125,10 @@ mock.Setup(x => x.DoSomething<It.IsSubType()>()).Returns(true);
 <br/>
 
 ### Properties
-* Setup [property]()
-* Setup [property getter / setter and verify]() separately
-* Setup [property to track its value]()
-* Setup [all properties]() 
-
+* [Setup property]()
+* [Setup property getter / setter and verify separately]() 
+* [Setup property to track its value]()
+* [Setup all properties]() 
 
 ***Property setup examples***
 ```csharp
@@ -156,10 +155,9 @@ mock.SetupAllProperties();
 <br/>
 
 ### Events
-* Event handler [add / verify]() setup
-* Event handler [remove / verify]() setup
-* Event [manual / automatic]() raise setup
-
+* [Event handler add / verify setup]()
+* [Event handler remove / verify setup]()
+* [Event manual / automatic raise setup]()
 
 ***Event setup examples*** 
 ```csharp
@@ -179,9 +177,9 @@ mock.Setup(x => x.DoSomething()).Raises(x => x.DataChanged += null, EventArgs.Em
 
 
 ### Callbacks
-* Setup [callback]()
-* Callbacks [with arguments]()
-* Callback [before / after the invocation]()
+* [Setup callback]()
+* [Callbacks with arguments]()
+* [Callback before / after the invocation]()
 
 
 ***Callback setup examples*** 
@@ -198,11 +196,12 @@ mock.Setup(x => x.GetSomething()).CallBacke(() => value = randomValue).Returns((
 <br/>
 
 ### Verification
-* Verify method call
-* Verify method call with custom error message
-* Verify method call count
-* Verfiy no other calls were made
-* Verify method call with argument value / type 
+* [Verify method call]()
+* [Verify method call with custom error message]()
+* [Verify method call count]()
+* [Verfiy no other calls were made]()
+* [Verify method call with argument exact value / type]()
+* [Verify call order]()
 
 ***Verification examples*** 
 ```csharp
