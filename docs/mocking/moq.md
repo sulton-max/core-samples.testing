@@ -75,6 +75,55 @@ mock.Protected().Setup<bool>("DoSomething", ItExp.IsAny<object>()).Returns(true)
 ```
 <br/>
 
+### Matching arguments
+* [Matching with predicate]()
+* [Matching with predicate in certain type]()
+* [Matching with any value in certain type]()
+* [Matching with not null value in certain type]()
+* [Matching with predifined set of values]()
+* [Matching with regex / range]()
+* [Matching with exclusion of certain values from predefined set of values]()
+* [Matching with Custom matcher]()
+* [Matching generic type arguments]()
+
+***Matching arguments examples***
+```csharp
+// Matching with predicate
+mock.Setup(x => x.DoSoemthing(It.Is((long y) => y > 200)));
+
+// Matching with predicate in certain type
+mock.Setup(x => x.DoSomething(It.Is<long>(y => y > 200)));
+
+// Matching with any value in certain type
+mock.Setup(x => x.DoSomething(It.IsAny<long>()));
+
+// Matching with not null value in certain type
+mock.Setup(x => x.DoSomething(It.IsNotNull<object>()));
+
+// Matching with predifined set of values
+mock.Setup(x => x.DoSomething(It.IsIn<long>(1, 2, 3)));
+
+// Matching with regex / range
+mock.Setup(x => x.DoSomething(It.IsRegex("[a-z]+")));
+mock.Setup(x => x.DoSomething(It.IsInRange(1, 10, Range.Inclusive)));
+
+// Matching with exclusion of certain values from predefined set of values
+mock.Setup(x => x.DoSomething(It.IsNotIn<long>(1, 2, 3)));
+
+// Matching with Custom matcher
+mock.Setup(x => x.DoSomething(ItIsLongString()).Returns(true);
+
+public string ItIsLongString()
+{
+    return Match.Create<string>(x => x.Length > 100);
+}
+
+// Matching generic type arguments
+mock.Setup(x => x.DoSomething<It.IsAnyType()>()).Returns(true);
+mock.Setup(x => x.DoSomething<It.IsSubType()>()).Returns(true);
+```
+<br/>
+
 ### Properties
 * Setup [property]()
 * Setup [property getter / setter and verify]() separately
