@@ -312,7 +312,40 @@ var fooMock = repository.Create<IFoo>({MockBehavior.Loose});
 ```
 <br/>
 
-Terminlar 
+### Metodlar
+* [Metod chaqiruvini sozlash]()
+* [Metod qiymatlarini sozlash]()
+* [Method qiymati uchun joyida hisoblanadigan ifodalardan foydalanish]()
+* [Metod chaqirvuiga istisno holatni sozlash]()
+* [Metodni ketma-ket chaqiruvlar uchun sozlash]()
+* [Enkapsulatsiya qilingan methodni sozlash]()
+
+***Metod sozlash misollari*** 
+```csharp
+// Metod chaqiruvini hech qanday qiymatsiz sozlash
+mock.Setup(x => x.DoSomething());
+
+// Metod chaqiruvini qiymat qaytarish uchun sozlash
+mock.Setup(x => x.DoSomething()).Returns(true);
+mock.Setup(x => x.DoSomethingAsync().Result).Returns(true);
+
+// Method qiymati uchun joyida hisoblanadigan ifodalardan foydalanish
+mock.Setup(x => x.DoSomething()).Returns(() => defferredEvaluationValue);
+
+// Metod chaqirvuiga istisno holatni sozlash
+mock.Setup(x => x.DoSomething()).Throws<Exception>();
+mock.Setup(x => x.DoSomething()).Throws(exactException);
+mock.Setup(x => x.DoSomething()).ThrowsAsync<Exception>();
+
+// Metodni ketma-ket chaqiruvlar uchun sozlash
+mock.SetupSequence(x => x.DoSomething()).Pass().Pass().Throws<Exception>();
+mock.Setup(x => x.GetSomething()).Returns(true).Returns(false).Throws<Exception>();
+
+// Enkapsulatsiya qilingan methodni qiymat qaytarish uchun sozlash
+mock.Protected().Setup<bool>("GetSomething").Returns(true);
+mock.Protected().Setup<bool>("DoSomething", ItExp.IsAny<object>()).Returns(true);
+```
+<br/>
 
 * Mocking - nusxa qilish, taqlid qilish
 * Callback - mocking jarayonida mock qilingan metod yoki propertylar chaqirilganda maxsus logikani ishlatish imkonini beradi
