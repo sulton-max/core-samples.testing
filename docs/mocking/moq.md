@@ -347,8 +347,54 @@ mock.Protected().Setup<bool>("DoSomething", ItExp.IsAny<object>()).Returns(true)
 ```
 <br/>
 
-* Mocking - nusxa qilish, taqlid qilish
-* Callback - mocking jarayonida mock qilingan metod yoki propertylar chaqirilganda maxsus logikani ishlatish imkonini beradi
+### Argumentlar mosligini belgilash (mockdagi metod chaqiruviga mos javob qaytarish uchun)
+* [Ifoda bilan belgilash]()
+* [Ifoda bilan aniq tip uchun belgilash]()
+* [Aniq tipda har qanday qiymat uchun belgilash]()
+* [Aniq tipda null bo'lmagan qiymat uchun belgilash]()
+* [Ma'lum qiymatlar to'plami bilan belgilash]()
+* [Regex yoki qiymat oralig'i bilan belgilash]()
+* [Ma'lum qiymatlar to'plamiga kirmasligini belgilash]()
+* [Maxsus yaratilgan mutanosiblik belgilovchisidan foydalanish]()
+* [Umumiy tip argumenti mutanosibligini belgilash]()
+
+***Argument mosligini belgilash misollari***
+```csharp
+// Ifoda bilan belgilash
+mock.Setup(x => x.DoSoemthing(It.Is((long y) => y > 200)));
+
+// Ifoda bilan aniq tip uchun belgilash
+mock.Setup(x => x.DoSomething(It.Is<long>(y => y > 200)));
+
+// Aniq tipda har qanday qiymat uchun belgilash
+mock.Setup(x => x.DoSomething(It.IsAny<long>()));
+
+// Aniq tipda null bo'lmagan qiymat uchun belgilash
+mock.Setup(x => x.DoSomething(It.IsNotNull<object>()));
+
+// Ma'lum qiymatlar to'plami bilan belgilash
+mock.Setup(x => x.DoSomething(It.IsIn<long>(1, 2, 3)));
+
+// Regex yoki qiymat oralig'i bilan belgilash
+mock.Setup(x => x.DoSomething(It.IsRegex("[a-z]+")));
+mock.Setup(x => x.DoSomething(It.IsInRange(1, 10, Range.Inclusive)));
+
+// Ma'lum qiymatlar to'plamiga kirmasligini belgilash
+mock.Setup(x => x.DoSomething(It.IsNotIn<long>(1, 2, 3)));
+
+// Maxsus yaratilgan mosligini belgilovchisidan foydalanish
+mock.Setup(x => x.DoSomething(ItIsLongString()).Returns(true);
+
+public string ItIsLongString()
+{
+    return Match.Create<string>(x => x.Length > 100);
+}
+
+// Umumiy tip argumenti mosligini belgilash
+mock.Setup(x => x.DoSomething<It.IsAnyType()>()).Returns(true);
+mock.Setup(x => x.DoSomething<It.IsSubType()>()).Returns(true);
+```
+<br/>
 
 Moq bu .NET uchun mocking kutubxonasi. U interface va klasslarni mocking qilish imkonini beradi. Moq foydalanish uchun juda oson va ko'pgina imkoniyatlarga ega. Hamda u ancha tez ishlaydi.
 
