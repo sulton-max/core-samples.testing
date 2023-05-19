@@ -426,7 +426,26 @@ mock.SetupAllProperties();
 ```
 <br/>
 
-Moq imkoniyatlari
+### Hodisalar (Events)
+* [Hodisa boshqaruvchisi (handler) qo'shish / chaqiruvni tasdiqlash (verification)]()
+* [Hodisa boshqaruvchisini bo'shatish / chaqiruvni tasdiqlash]()
+* [Hodisani shaxsan va avtomatik vujudge keltirish]()
+
+***Hodisani sozlash misollari*** 
+```csharp
+// Hodisa boshqaruvchisi (handler) qo'shish / chaqiruvni tasdiqlash (verification)
+mock.SetupAdd(x => x.DataChanged += It.IsAny<EventHandler>());
+mock.VerifyAdd(x => x.DataChanged += It.IsAny<EventHandler>());
+
+// Hodisa boshqaruvchisini bo'shatish / chaqiruvni tasdiqlash
+mock.SetupRemove(x => x.DataChanged -= It.IsAny<EventHandler>());
+mock.VerifyRemove(x => x.DataChanged -= It.IsAny<EventHandler>());
+
+// Hodisani shaxsan va avtomatik vujudge keltirish
+mock.Raise(x => x.DataChanged += null, EventArgs.Empty);
+mock.Setup(x => x.DoSomething()).Raises(x => x.DataChanged += null, EventArgs.Empty);
+```
+<br/>
 
 #### Metodlar ####
 
