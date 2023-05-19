@@ -447,7 +447,23 @@ mock.Setup(x => x.DoSomething()).Raises(x => x.DataChanged += null, EventArgs.Em
 ```
 <br/>
 
-#### Metodlar ####
+### Qayta chaqiruvlar (Callbacks)
+* [Qayta chaqiruvni sozlash]()
+* [Qayta chaqrivuda argumentlardan foydalanish]()
+* [Qayta chaqiruvni metod bajarilishidan oldin va keyingi holatlar uchun sozlash]()
+
+***Callback setup examples*** 
+```csharp
+// Qayta chaqiruvni sozlash
+mock.Setup(x => x.DoSomething()).Callback(() => calls++);
+
+// Qayta chaqrivuda argumentlardan foydalanish
+mock.Setup(x => x.DoSomething(It.IsAny<string>())).Callback<string>(x => { inputValue = x});
+
+// Qayta chaqiruvni metod bajarilishidan oldin va keyingi holatlar uchun sozlash
+mock.Setup(x => x.GetSomething()).CallBacke(() => value = randomValue).Returns(() => value).Callback<object>((x) => actual = x);
+```
+<br/>
 
 
 ### Propertylar ###
