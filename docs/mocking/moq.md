@@ -222,14 +222,49 @@ mock.Verify(x => x.DoSomething("test"));
 
 // Verify method call with argument type
 mock.Verify(x => x.DoSomething(It.IsAny<string>()));
+
+// Verify method call order
+var sequence = new MockSequence();
+mockA.InSequence(sequence).Setup(x => x.DoSomething());
+mockB.InSequence(sequence).Setup(x => x.DoSomething());
+```
+<br/>
+
+### Advanced features
+* [Implementing multiple interfaces / in single mock]()
+
+***Advanced features examples***
+```csharp
+// Implementing multiple interfaces
+var mock = new Mock<IXDependency>();
+var disposableMock = mock.As<IDisposable>();
+disposableMock.Setup(x => x.Dispose());
+
+// Implementing multiple interfaces in single mock
+mock.As<IDisposable>().Setup(x => x.Dispose());
 ```
 <br/>
 
 ## Overall components in glance
 
+* **Setup**
 <br/>
   <p align=center>
-    <img src="https://raw.githubusercontent.com/sulton-max/core-samples.testing.fundamentals/main/docs/mocking/assets/images/moq-events.png">
+    <img src="https://raw.githubusercontent.com/sulton-max/core-samples.testing.fundamentals/main/docs/mocking/assets/images/moq-setup.png" alt="Moq setup components">
+  </p>
+<br/>
+
+* **Matching**
+<br/>
+  <p align=center>
+    <img src="https://raw.githubusercontent.com/sulton-max/core-samples.testing.fundamentals/main/docs/mocking/assets/images/moq-matching.png" alt="Moq matching components">
+  </p>
+<br/>
+
+* **Verification**
+<br/>
+  <p align=center>
+    <img src="https://raw.githubusercontent.com/sulton-max/core-samples.testing.fundamentals/main/docs/mocking/assets/images/moq-verification.png" alt="Moq verification components">
   </p>
 <br/>
 
