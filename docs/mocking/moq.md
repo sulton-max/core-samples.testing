@@ -5,9 +5,17 @@ Moq is a mocking library for .NET. It allows you to mock interfaces and classes.
 ## Features of Moq
 
 ### Initialization 
-* sdf
-* sdf
+* [Creating default mock (Loose mock)]() 
+* [Creating mock with specified behavior]()
+* [Creating partial mock]()
+* [Creating mock instance]()
+* [Creating recursive mock]()
+* [Creating mock repository]()
 
+***Initialization examples***
+```csharp
+// Creating default mock (Loose mock)
+var mock = new Mock<IXDependency>();
 
 ### Methods
 * Setup method calls

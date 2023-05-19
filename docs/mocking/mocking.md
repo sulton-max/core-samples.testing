@@ -17,3 +17,12 @@ Mocking is technique used in software testing to create simulated "mock" version
 * **Test Coverage** - provides ability to test edge cases and scenarios that are impossible with actual dependencies
 
 ### When to use mocking ? ###
+
+
+
+
+
+
+
+* Mocking - nusxa qilish, taqlid qilish, testing jarayonida 
+* Callback - mocking jarayonida mock qilingan metod yoki propertylar chaqirilganda maxsus logikani ishlatish imkonini beradi
