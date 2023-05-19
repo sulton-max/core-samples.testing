@@ -265,4 +265,110 @@ public class MoqIntro
     }
 
     #endregion
+
+    #region Verification
+
+    // Verify method call
+    [Fact]
+    public void Reset_WhenCalled_ShouldCallSet()
+    {
+        // Arrange
+        _calculatorStorageMock.SetupSet(x => x.Value = It.IsAny<decimal>());
+
+        // Act
+        _sut.Reset();
+
+        // Assert
+        _calculatorStorageMock.VerifySet(x => x.Value = It.IsAny<decimal>());
+    }
+
+    // Verify method call with custom error message
+    [Fact]
+    public void Reset_WhenCalled_ShouldCallSetWithCustomErrorMessage()
+    {
+        // Arrange
+        _calculatorStorageMock.SetupSet(x => x.Value = It.IsAny<decimal>());
+
+        // Act
+        _sut.Reset();
+
+        // Assert
+        _calculatorStorageMock.VerifySet(x => x.Value = It.IsAny<decimal>(), "The value was not set");
+    }
+
+    // Verify method call count
+    [Fact]
+    public void Add_WhenCalled_ShouldSetValueOnlyOnce()
+    {
+        // Arrange
+        _calculatorStorageMock.SetupProperty(x => x.Value);
+
+        // Act
+        _sut.Add(10);
+        _sut.Add(10);
+        _sut.Add(10);
+        
+        // Assert
+        _calculatorStorageMock.Verify(x => x.Value, Times.Exactly(3));
+    }
+
+    // Verify no other calls were made
+    [Fact]
+    public void Add_WhenCalled_ShouldNotCallOtherMethods()
+    {
+        // Arrange
+        _calculatorStorageMock.SetupProperty(x => x.Value);
+
+        // Act
+        _sut.Add(10);
+
+        // Assert
+        _calculatorStorageMock.Verify(x => x.Value, Times.Once());
+        _calculatorStorageMock.VerifyNoOtherCalls();
+    }
+
+    // Verify method call with argument exact value
+    [Fact]
+    public void Add_WhenCalled_ShouldSetExactValue()
+    {
+        // Arrange
+        _calculatorStorageMock.SetupProperty(x => x.Value);
+
+        // Act
+        _sut.Add(10);
+
+        // Assert
+        _calculatorStorageMock.VerifySet(x => x.Value = 10);
+    }
+
+    // Verify method call with argument exact type
+    [Fact]
+    public void Add_WhenCalled_ShouldSetValue()
+    {
+        // Arrange
+        _calculatorStorageMock.SetupProperty(x => x.Value);
+
+        // Act
+        _sut.Add(10);
+
+        // Assert
+        _calculatorStorageMock.VerifySet(x => x.Value = It.IsAny<decimal>());
+    }
+    
+    // Verify method call order
+    [Fact]
+    public void Add_WhenCalled_ShouldCallSetValueThenCallDisplay()
+    {
+        // Arrange
+        var input = 10;
+        var sequence = new MockSequence();
+
+        _calculatorStorageMock.InSequence(sequence).SetupSet(x => x.Value = It.IsAny<decimal>());
+        _calculatorOutputMock.InSequence(sequence).Setup(x => x.Display(It.IsAny<decimal>()));
+        
+        // Act
+        _sut.Add(input); 
+    }
+
+    #endregion
 }
