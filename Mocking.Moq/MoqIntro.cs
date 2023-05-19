@@ -37,6 +37,7 @@ public class Calculator
 
     public void Reset()
     {
+        _storage.Value = default;
     }
 
     public decimal GetValue()
@@ -61,12 +62,6 @@ public class Calculator
     }
 
     public decimal Add(decimal value) => _storage.Value += value;
-
-    public decimal Subtract(decimal value) => _storage.Value -= value;
-
-    public decimal Multiply(decimal value) => _storage.Value *= value;
-
-    public decimal Divide(decimal value) => _storage.Value /= value;
 }
 
 public class MoqIntro
@@ -89,7 +84,59 @@ public class MoqIntro
 
     #endregion
 
-    #region Matching arguments
+    #region Properties
+
+    // Set up a property
+    [Fact]
+    public void Add_WhenCalled_ShouldReturnResult()
+    {
+        // Arrange 
+        var initial = 0;
+        var input = 10;
+        var expected = 10;
+        _calculatorStorageMock.Setup(x => x.Value).Returns(initial);
+
+        // Act
+        var actual = _sut.Add(input);
+
+        // Assert
+        Assert.Equal(expected, actual);
+    }
+
+    // Set up getter / setter
+    [Fact]
+    public void GetValue_WhenCalled_ShouldGetValue()
+    {
+        // Arrange
+        var initial = 123M;
+        var expected = initial;
+        _calculatorStorageMock.SetupGet(x => x.Value).Returns(initial);
+        _calculatorStorageMock.SetupSet(x => x.Value = It.IsAny<decimal>());
+
+        // Act
+        var actual = _sut.GetValue();
+
+        // Assert
+        Assert.Equal(expected, actual);
+    }
+
+    // Setup property to track its value
+    [Fact]
+    public void Add_WhenCalled_ShouldSetValueOnEachCall()
+    {
+        // Arrange
+        var input = 10;
+        var expected = 30;
+        _calculatorStorageMock.SetupProperty(x => x.Value);
+
+        // Act
+        _sut.Add(input);
+        _sut.Add(input);
+        _sut.Add(input);
+
+        // Assert
+        Assert.Equal(expected, _calculatorStorageMock.Object.Value);
+    }
 
     #endregion
 
