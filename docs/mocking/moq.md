@@ -465,6 +465,40 @@ mock.Setup(x => x.GetSomething()).CallBacke(() => value = randomValue).Returns((
 ```
 <br/>
 
+### Chaqiruvni tasdiqlash (Verification)
+* [Metod chaqirilganini tasdiqlash]()
+* [Metod chaqirilganini maxsus xatolik xabari bilan tasdiqlash]()
+* [Metod chaqiruvi sonini tasdiqlash]()
+* [Boshqa chaqiruvlar bo'lmaganini tasdiqlash]()
+* [Metod chaqiruvini aniq qiymat / aniq tip bilan tasdiqlash]()
+* [Metodlar chaqiruvini aniq ketma-ketligini tasdiqlash]()
+
+***Metod chaqiruvini tasdiqlash misollari*** 
+```csharp
+// Metod chaqirilganini tasdiqlash
+mock.Verify(x => x.DoSomething());
+
+// Metod chaqirilganini maxsus xatolik xabari bilan tasdiqlash
+mock.Verify(x => x.DoSomething(), "Custom error message");
+
+// Metod chaqiruvi sonini tasdiqlash
+mock.Verify(x => x.DoSomething(), Times.Once);
+
+// Boshqa chaqiruvlar bo'lmaganini tasdiqlash
+mock.VerifyNoOtherCalls();
+
+// Metod chaqiruvini aniq qiymat bilan tasdiqlash
+mock.Verify(x => x.DoSomething("test"));
+
+// Metod chaqiruvini aniq tip bilan tasdiqlash
+mock.Verify(x => x.DoSomething(It.IsAny<string>()));
+
+// Metodlar chaqiruvini aniq ketma-ketligini tasdiqlash
+var sequence = new MockSequence();
+mockA.InSequence(sequence).Setup(x => x.DoSomething());
+mockB.InSequence(sequence).Setup(x => x.DoSomething());
+```
+<br/>
 
 ### Propertylar ###
 
