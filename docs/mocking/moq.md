@@ -270,7 +270,47 @@ mock.As<IDisposable>().Setup(x => x.Dispose());
 
 ---
 
-### Moq ### 
+# Moq O'zbekcha
+
+Moq bu .NET uchun mocking kutubxonasi. U interfeys va klasslarni mocking qilish imkonini beradi. Moq foydalanish uchun juda oson va ko'pgina imkoniyatlarga ega. Hamda u ancha tez ishlaydi.
+
+## Moq imkoniyatlari
+
+### Mock yaratish
+* [Standard mock yaratish (ozod yoki cheklovlarsiz mock)]() 
+* [Belgilangan logikali mock yaratish]()
+* [Qisman mock yaratish]()
+* [Mock obyektini (bitta nusxa) olish]()
+* [Rekursiv mock yaratish (obyekt ichidagi obyektlar uchun)]()
+* [Mock repository yaratish]()
+
+***Mock yaratish misollari***
+```csharp
+// Standard mock yaratish (ozod yoki cheklovlarsiz mock)
+var mock = new Mock<IXDependency>();
+
+// Belgilangan logikali mock yaratish
+var mock = new Mock<IXDependency>(MockBehavior.Strict);
+
+// Qisman mock yaratish
+var mock = new Mock<IXDependency>() { CallBase = true };
+
+// Mock obyektini (bitta nusxa) olish
+var mock = new Mock<IXDependency>();
+var value = mock.Object;
+var dependencyMock = Mock.Get(value);
+
+// Rekursiv mock yaratish (obyekt ichidagi obyektlar uchun)
+var mock = new Mock<IXDependency>() { DefaultValue = DefaultValue.Mock };
+var value = mock.Object.Foo;
+var fooMock = Mock.Get(value);
+
+// Mock repository yaratish
+var repository = new MockRepository(MockBehavior.Strict);
+var mock = repository.Create<IXDependency>();
+var fooMock = repository.Create<IFoo>({MockBehavior.Loose});
+```
+<br/>
 
 Terminlar 
 
