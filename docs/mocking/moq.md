@@ -500,9 +500,42 @@ mockB.InSequence(sequence).Setup(x => x.DoSomething());
 ```
 <br/>
 
-### Propertylar ###
+### Qo'shimcha imkoniyatlar
+* [Bitta mockda bir nechta interfeyslar bajarilishini sozlash]()
 
+***Qo'shimcha imkoniyatlar misollari***
+```csharp
+// Bir nechta interfeyslarni bajarilishini sozlash
+var mock = new Mock<IXDependency>();
+var disposableMock = mock.As<IDisposable>();
+disposableMock.Setup(x => x.Dispose());
 
-### 
+// Bitta mockda bir nechta interfeyslar bajarilishini sozlash
+mock.As<IDisposable>().Setup(x => x.Dispose());
+```
+<br/>
+
+## Umumiy komponentlar 
+
+* **Sozlash**
+<br/>
+  <p align=center>
+    <img src="https://raw.githubusercontent.com/sulton-max/core-samples.testing.fundamentals/main/docs/mocking/assets/images/moq-setup.uz.png" alt="Moq sozlash komponentlari">
+  </p>
+<br/>
+
+* **Argument mosligini belgilash**
+<br/>
+  <p align=center>
+    <img src="https://raw.githubusercontent.com/sulton-max/core-samples.testing.fundamentals/main/docs/mocking/assets/images/moq-matching.uz.png" alt="Moq mutanosiblik komponentlari">
+  </p>
+<br/>
+
+* **Chaqiruvni Tasdiqlash**
+<br/>
+  <p align=center>
+    <img src="https://raw.githubusercontent.com/sulton-max/core-samples.testing.fundamentals/main/docs/mocking/assets/images/moq-verification.uz.png" alt="Moq metod chaqiruvini tasdiqlash komponentlari">
+  </p>
+<br/>
 
 
