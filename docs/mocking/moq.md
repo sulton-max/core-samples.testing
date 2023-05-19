@@ -17,11 +17,36 @@ Moq is a mocking library for .NET. It allows you to mock interfaces and classes.
 // Creating default mock (Loose mock)
 var mock = new Mock<IXDependency>();
 
-### Methods
-* Setup method calls
-* Setup method returns valeus
-* Setup method to throw exception
+// Creating mock with specified behavior
+var mock = new Mock<IXDependency>(MockBehavior.Strict);
 
+// Creating partial mock
+var mock = new Mock<IXDependency>() { CallBase = true };
+
+// Creating mock instance
+var mock = new Mock<IXDependency>();
+var value = mock.Object;
+var dependencyMock = Mock.Get(value);
+
+// Creating recursive mock
+var mock = new Mock<IXDependency>() { DefaultValue = DefaultValue.Mock };
+var value = mock.Object.Foo;
+var fooMock = Mock.Get(value);
+
+// Creating mock repository
+var repository = new MockRepository(MockBehavior.Strict);
+var mock = repository.Create<IXDependency>();
+var fooMock = repository.Create<IFoo>({MockBehavior.Loose});
+```
+<br/>
+
+### Methods
+* [Setup method calls]()
+* [Setup method returns valeus]()
+* [Setup method to throw exception]()
+* [Setup method with deferred evaluation]()
+* [Setup method for sequential calls]()
+* [Setup protected method]()
 
 ***Method setup examples*** 
 ```csharp
@@ -30,6 +55,23 @@ mock.Setup(x => x.DoSomething());
 
 // Setup metohd to return a value
 mock.Setup(x => x.DoSomething()).Returns(true);
+mock.Setup(x => x.DoSomethingAsync().Result).Returns(true);
+
+// Setup method with deferred evaluation
+mock.Setup(x => x.DoSomething()).Returns(() => defferredEvaluationValue);
+
+// Setup method to throw exception
+mock.Setup(x => x.DoSomething()).Throws<Exception>();
+mock.Setup(x => x.DoSomething()).Throws(exactException);
+mock.Setup(x => x.DoSomething()).ThrowsAsync<Exception>();
+
+// Setup method for sequential calls
+mock.SetupSequence(x => x.DoSomething()).Pass().Pass().Throws<Exception>();
+mock.Setup(x => x.GetSomething()).Returns(true).Returns(false).Throws<Exception>();
+
+// Setup protected method and argument matching
+mock.Protected().Setup<bool>("GetSomething").Returns(true);
+mock.Protected().Setup<bool>("DoSomething", ItExp.IsAny<object>()).Returns(true);
 ```
 <br/>
 
