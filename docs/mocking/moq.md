@@ -396,7 +396,35 @@ mock.Setup(x => x.DoSomething<It.IsSubType()>()).Returns(true);
 ```
 <br/>
 
-Moq bu .NET uchun mocking kutubxonasi. U interface va klasslarni mocking qilish imkonini beradi. Moq foydalanish uchun juda oson va ko'pgina imkoniyatlarga ega. Hamda u ancha tez ishlaydi.
+### Mock Xususiyatlari (Property)
+* [Xususiyatni sozlash]()
+* [Xususiyat getter va setter larini sozlash va chaqiruvni tasdiqlash]() 
+* [Xusisyat o'z qiymatini kuzatishi uchun sozlash]()
+* [Barcha xususiyatlarni sozlash]() 
+
+***Xususiyatni sozlash misollari***
+```csharp
+// Xususiyatni sozlash
+mock.SetupProperty(x => x.Data);
+
+// Xususiyatni bosh qiymat bilan sozlash
+mock.SetupProperty(x => x.Data, null);
+
+// Xususiyat getter va setter larini sozlash va chaqiruvni tasdiqlash
+mock.SetupGet(x => x.Data).Returns(null);
+mock.SetupSet(x => x.Data = null);
+mock.SetupSet(x => x.Data = It.IsAny<object>());
+
+mock.VerifyGet(x => x.Data);
+mock.VerifySet(x => x.Data = null);
+
+// Xusisyat o'z qiymatini kuzatishi uchun sozlash
+mock.SetupProperty(x => x.Data);
+
+// Barcha xususiyatlarni sozlash
+mock.SetupAllProperties();
+```
+<br/>
 
 Moq imkoniyatlari
 
